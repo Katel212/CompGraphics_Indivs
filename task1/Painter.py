@@ -1,5 +1,5 @@
 from modes import *
-from quickhull import draw_hull
+from task1.quickhull import draw_hull
 
 class Painter():
     def __init__(self, brush_color=(0, 0, 0)):

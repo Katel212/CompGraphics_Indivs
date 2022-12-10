@@ -1,6 +1,6 @@
-from tkinter import PhotoImage, Tk, Button
-from canvas import MyCanvas
-from Painter import Painter
+from tkinter import Tk, Button
+from task1.canvas import MyCanvas
+from task1.Painter import Painter
 
 
 class MyUI(Tk):
