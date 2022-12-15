@@ -16,7 +16,7 @@ class Wall(Figure):
         super().__init__(color)
         self.p1 = p1
         self.p2 = np.array([p2.x, p2.y, p2.z])
-        self.center = np.array([(p2.x-p1.x)/2,(p2.y-p1.y)/2,(p2.z-p1.z)/2])
+        self.center = np.array([(p2.x - p1.x) / 2, (p2.y - p1.y) / 2, (p2.z - p1.z) / 2])
         self.normal = normal
 
     def intersect(self, origin, direction):
@@ -27,17 +27,13 @@ class Wall(Figure):
             return None
         prod3 = -prod1 / prod2
 
-        if prod3 < 0.000001:
+        if prod3 < 0.0001:
             return None
-        interPoint = Point(origin[0] + prod3 * direction[0], origin[1] + prod3 * direction[1],
-                           origin[2] + prod3 * direction[2])
-        if self.pointInPlane(interPoint):
-            return prod3
-        else:
-            return None
+        return prod3
 
     def pointInPlane(self, point):
-        xval = point.x - max(self.p2[0], self.p1.x) <= 0.00001 and point.x - min(self.p2[1], self.p1.x) >= -0.00001
+        xval = (point.x - max(self.p2[0], self.p1.x) <= 0.00001) and (
+                point.x - min(self.p2[0], self.p1.x) >= -0.00001)
         yval = (point.y - max(self.p2[1], self.p1.y) <= 0.00001) and (
                 point.y - min(self.p2[1], self.p1.y) >= -0.00001)
         zval = (point.z - max(self.p2[2], self.p1.z) <= 0.00001) and (

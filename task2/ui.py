@@ -45,7 +45,7 @@ class UI(Tk):
         self.canv.storage.add_figure(Wall(Point(-25, -25, -70), Point(25, 25, -70), [0, 0, 1]))
         # sphere
         self.canv.storage.add_figure(Sphere([255, 0, 255], (-18, -20, 55), 15))
-        self.canv.light = LightSource((30,100,0), np.array([0.1, 0.1, 0.1]))
+        self.canv.light = LightSource((30,100,0), np.array([0.3, 0.3, 0.3]))
         p = self.renderer.translate3D_point(Point(self.canv.light.center[0],self.canv.light.center[1],self.canv.light.center[2]))
         raytracing(self.canv, self.win_width, self.win_height)
         self.canv.create_oval(p.x - self.canv.light.radius, p.y - self.canv.light.radius, p.x + self.canv.light.radius, p.y + self.canv.light.radius, fill=rgb2hex((0,255,0)), outline=rgb2hex((0,255,0)))

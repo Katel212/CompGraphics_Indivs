@@ -13,7 +13,7 @@ def raytracing(canv, width, height):
 
 
 def vector_ray(i, j, width, height):
-    return normalize(np.array([(i - width / 2) * (100.0 / width), (j - height / 2) * (-1) * (100.0 / height), 100]))
+    return normalize(np.array([(i - width / 2) * (100.0 / width), (j - height / 2) * (-1) * (100.0 / height), 50]))
 
 
 def normalize(vector):
@@ -42,6 +42,11 @@ def ray(lookup, direction, storage, light):
     # ambiant
     illumination += nearest_object.initial_color * light.intense
     illumination += nearest_object.initial_color * light.intense * np.dot(intersection_to_light, normal_to_surface)
+    intersection_to_camera = normalize(lookup - intersection)
+    H = normalize(intersection_to_light + intersection_to_camera)
+    illumination += [1,1,1] * light.intense * np.dot(normal_to_surface, H) ** (
+                100/ 4)
+
     color = illumination.astype(int)
     return (color[0], color[1], color[2])
 
