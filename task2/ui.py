@@ -37,27 +37,27 @@ class UI(Tk):
 
     def setup_room(self):
         # room
-        #передняя
+        # передняя
         self.canv.storage.add_figure(
-            Wall(Point(-25, -25, 70), Point(25, 25, 70), [255, 0, 0], [200, 0, 0]))
-        #нижняя
+            Wall(Point(25, 25, 70), Point(-25, -25, 70), [255, 0, 0], [200, 0, 0], [0, 0, 1]))
+        # нижняя
         self.canv.storage.add_figure(
-              Wall(Point(-25, -25, -70), Point(25, -25, 70), [255, 0, 0], [200, 0,0]))
-        #верхняя
+            Wall(Point(-25, -25, -70), Point(25, -25, 70), [255, 0, 0], [200, 0, 0], [0, 1, 0]))
+        # верхняя
         self.canv.storage.add_figure(
-            Wall(Point(-25, 25, 70), Point(25, 25, -70), [255, 0, 0], [200, 0, 0]))
-        #левая
+            Wall(Point(-25, 25, 70), Point(25, 25, -70), [255, 0, 0], [200, 0, 0], [0, -1, 0]))
+        # левая
         self.canv.storage.add_figure(
-            Wall(Point(-25, -25, -70), Point(-25, 25, 70), [255, 0, 0], [200, 0, 0]))
-        #правая
+            Wall(Point(-25, -25, -70), Point(-25, 25, 70), [255, 0, 0], [200, 0, 0], [1, 0, 0]))
+        # правая
         self.canv.storage.add_figure(
-           Wall(Point(25, -25, -70), Point(25, 25, 70), [255, 0, 0], [200, 0, 0]))
-        #передняя
+            Wall(Point(25, -25, -70), Point(25, 25, 70), [255, 0, 0], [200, 0, 0], [-1, 0, 0]))
+        # передняя
         self.canv.storage.add_figure(
-             Wall(Point(25, 25, -70), Point(-25, -25, -70), [255, 255, 0], [200, 200, 0],[0,0,-1]))
+             Wall(Point(25, 25, -70), Point(-25, -25, -70), [255, 255, 0], [200, 200, 0], [0, 0, -1]))
         # sphere
-        self.canv.storage.add_figure(Sphere([255, 0, 255], [230, 0, 230], (-14, -14, 50), 10))
-        self.canv.light = LightSource([0, 23, 0], np.array([0.5, 0.5, 0.5]))
+        self.canv.storage.add_figure(Sphere([255, 0, 255], [230, 0, 230], (-10, -10, 50), 10))
+        self.canv.light = LightSource([5, 24, 0], np.array([0.5, 0.5, 0.5]))
         p = self.renderer.translate3D_point(
             Point(self.canv.light.center[0], self.canv.light.center[1], self.canv.light.center[2]))
         raytracing(self.canv, self.win_width, self.win_height)

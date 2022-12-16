@@ -34,19 +34,17 @@ def ray(camera, direction, storage, light):
     is_shadowed = min_distance < intersection_to_light_distance
 
     illumination = np.zeros((3))
-
-    # ambiant
+    color = None
     illumination += nearest_object.ambient * light.intense
     if is_shadowed:
         color = np.clip(illumination.astype(int), 0, 255)
-        return (color[0], color[1], color[2])
-    illumination += nearest_object.diffuse * light.intense * np.dot(intersection_to_light, normal_to_surface)
-    intersection_to_camera = normalize(camera - intersection)
-    H = normalize(intersection_to_light + intersection_to_camera)
-    illumination += nearest_object.specular * light.intense * np.dot(normal_to_surface, H) ** (
-                100/ 4)
-
-    color = np.clip(illumination.astype(int),0,255)
+    else:
+        illumination += nearest_object.diffuse * light.intense * np.dot(intersection_to_light, normal_to_surface)
+        intersection_to_camera = normalize(camera - intersection)
+        H = normalize(intersection_to_light + intersection_to_camera)
+        illumination += nearest_object.specular * light.intense * np.dot(normal_to_surface, H) ** (
+                    100/ 4)
+        color = np.clip(illumination.astype(int),0,255)
     return (color[0], color[1], color[2])
 
 
@@ -55,7 +53,7 @@ def nearest_intersected_object(storage, cam, direction):
     nearest_object = None
     min_distance = np.inf
     for index, distance in enumerate(distances):
-        if distance and distance < min_distance:
+        if distance and 0<distance < min_distance:
             min_distance = distance
             nearest_object = storage[index]
     return nearest_object, min_distance

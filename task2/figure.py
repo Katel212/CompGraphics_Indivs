@@ -53,7 +53,7 @@ class Wall(Figure):
         if det < 1e-8 and det > -1e-8:
             return None
         inv_det = 1 / det
-        tvec = origin - self.p1
+        tvec = origin - p1
         u = np.dot(tvec, pvec) * inv_det
         if u < 0 or u > 1:
             return 0
