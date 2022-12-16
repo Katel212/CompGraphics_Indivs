@@ -1,31 +1,30 @@
 import numpy as np
 
-from task2.point import Point
-
 
 def raytracing(canv, width, height):
-    lookup = np.array([0, 0, -20])
-    for i in range(width):
-        for j in range(height):
-            r = vector_ray(i, j, width, height)
-            col = ray(lookup, r, canv.storage.figs, canv.light)
-            canv.put_pixel(i, j, col)
+    camera = np.array([0, 0, -20])
+    for x in range(width):
+        for y in range(height):
+            r = vector_ray(x, y, width, height)
+            col = ray(camera, r, canv.storage.figs, canv.light)
+            canv.put_pixel(x, y, col)
 
 
-def vector_ray(i, j, width, height):
-    return normalize(np.array([(i - width / 2) * (100.0 / width), (j - height / 2) * (-1) * (100.0 / height), 50]))
+def vector_ray(x, y, width, height):
+    return normalize(np.array([100*x/width - 50, -1 * (100*y/ height - 50), 100]))
 
 
 def normalize(vector):
     return vector / np.linalg.norm(vector)
 
 
-def ray(lookup, direction, storage, light):
-    nearest_object, min_distance = nearest_intersected_object(storage, lookup, direction)
+def ray(camera, direction, storage, light):
+    nearest_object, min_distance = nearest_intersected_object(storage, camera, direction)
     if nearest_object is None:
         return (255, 255, 255)
-    intersection = lookup + min_distance * direction
-    normal_to_surface = normalize(intersection - nearest_object.center)
+    intersection = camera + min_distance * direction
+
+    normal_to_surface = nearest_object.get_normal(intersection)
     shifted_point = intersection + 1e-5 * normal_to_surface
     intersection_to_light = normalize(light.center - shifted_point)
 
@@ -34,20 +33,20 @@ def ray(lookup, direction, storage, light):
     intersection_to_light_distance = np.linalg.norm(light.center - intersection)
     is_shadowed = min_distance < intersection_to_light_distance
 
-    if is_shadowed:
-        return (0,0,0)
-
     illumination = np.zeros((3))
 
     # ambiant
-    illumination += nearest_object.initial_color * light.intense
-    illumination += nearest_object.initial_color * light.intense * np.dot(intersection_to_light, normal_to_surface)
-    intersection_to_camera = normalize(lookup - intersection)
+    illumination += nearest_object.ambient * light.intense
+    if is_shadowed:
+        color = np.clip(illumination.astype(int), 0, 255)
+        return (color[0], color[1], color[2])
+    illumination += nearest_object.diffuse * light.intense * np.dot(intersection_to_light, normal_to_surface)
+    intersection_to_camera = normalize(camera - intersection)
     H = normalize(intersection_to_light + intersection_to_camera)
-    illumination += [1,1,1] * light.intense * np.dot(normal_to_surface, H) ** (
+    illumination += nearest_object.specular * light.intense * np.dot(normal_to_surface, H) ** (
                 100/ 4)
 
-    color = illumination.astype(int)
+    color = np.clip(illumination.astype(int),0,255)
     return (color[0], color[1], color[2])
 
 

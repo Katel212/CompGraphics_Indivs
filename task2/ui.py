@@ -37,19 +37,32 @@ class UI(Tk):
 
     def setup_room(self):
         # room
-        self.canv.storage.add_figure(Wall(Point(-25, -25, 70), Point(25, 25, 70), [0, 0, -1]))
-        self.canv.storage.add_figure(Wall(Point(-25, -25, -70), Point(25, -25, 70), [0, 1, 0]))
-        self.canv.storage.add_figure(Wall(Point(-25, 25, 70), Point(25, 25, 70), [0, -1, 0]))
-        self.canv.storage.add_figure(Wall(Point(-25, -25, -70), Point(-25, 25, 70), [1, 0, 0]))
-        self.canv.storage.add_figure(Wall(Point(25, -25, -70), Point(25, 25, 70), [-1, 0, 0]))
-        self.canv.storage.add_figure(Wall(Point(-25, -25, -70), Point(25, 25, -70), [0, 0, 1]))
+        #передняя
+        self.canv.storage.add_figure(
+            Wall(Point(-25, -25, 70), Point(25, 25, 70), [255, 0, 0], [200, 0, 0]))
+        #нижняя
+        self.canv.storage.add_figure(
+              Wall(Point(-25, -25, -70), Point(25, -25, 70), [255, 0, 0], [200, 0,0]))
+        #верхняя
+        self.canv.storage.add_figure(
+            Wall(Point(-25, 25, 70), Point(25, 25, -70), [255, 0, 0], [200, 0, 0]))
+        #левая
+        self.canv.storage.add_figure(
+            Wall(Point(-25, -25, -70), Point(-25, 25, 70), [255, 0, 0], [200, 0, 0]))
+        #правая
+        self.canv.storage.add_figure(
+           Wall(Point(25, -25, -70), Point(25, 25, 70), [255, 0, 0], [200, 0, 0]))
+        #передняя
+        self.canv.storage.add_figure(
+             Wall(Point(25, 25, -70), Point(-25, -25, -70), [255, 255, 0], [200, 200, 0],[0,0,-1]))
         # sphere
-        self.canv.storage.add_figure(Sphere([255, 0, 255], (-18, -20, 55), 15))
-        self.canv.light = LightSource((30,100,0), np.array([0.3, 0.3, 0.3]))
-        p = self.renderer.translate3D_point(Point(self.canv.light.center[0],self.canv.light.center[1],self.canv.light.center[2]))
+        self.canv.storage.add_figure(Sphere([255, 0, 255], [230, 0, 230], (-14, -14, 50), 10))
+        self.canv.light = LightSource([0, 23, 0], np.array([0.5, 0.5, 0.5]))
+        p = self.renderer.translate3D_point(
+            Point(self.canv.light.center[0], self.canv.light.center[1], self.canv.light.center[2]))
         raytracing(self.canv, self.win_width, self.win_height)
-        self.canv.create_oval(p.x - self.canv.light.radius, p.y - self.canv.light.radius, p.x + self.canv.light.radius, p.y + self.canv.light.radius, fill=rgb2hex((0,255,0)), outline=rgb2hex((0,255,0)))
-
+        self.canv.create_oval(p.x - self.canv.light.radius, p.y - self.canv.light.radius, p.x + self.canv.light.radius,
+                              p.y + self.canv.light.radius, fill=rgb2hex((0, 255, 0)), outline=rgb2hex((0, 255, 0)))
 
     def run(self):
         self.mainloop()
