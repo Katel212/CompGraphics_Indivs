@@ -42,7 +42,7 @@ def ray(camera, direction, storage, light):
         illumination += nearest_object.diffuse * light.intense * np.dot(intersection_to_light, normal_to_surface)
         intersection_to_camera = normalize(camera - intersection)
         H = normalize(intersection_to_light + intersection_to_camera)
-        illumination += nearest_object.specular * light.intense * np.dot(normal_to_surface, H) ** (
+        illumination += nearest_object.specular * np.array([0.2,0.2,0.2]) * np.dot(normal_to_surface, H) ** (
                     100/ 4)
         color = np.clip(illumination.astype(int),0,255)
     return (color[0], color[1], color[2])

@@ -39,30 +39,26 @@ class UI(Tk):
         # room
         # передняя
         self.canv.storage.add_figure(
-            Wall(Point(25, 25, 70), Point(-25, -25, 70), [255, 0, 0], [200, 0, 0], [0, 0, 1]))
+            Wall(Point(25, 25, 70), Point(-25, -25, 70), [255, 255, 255], [230, 230, 230], [0, 0, -1]))
         # нижняя
         self.canv.storage.add_figure(
-            Wall(Point(-25, -25, -70), Point(25, -25, 70), [255, 0, 0], [200, 0, 0], [0, 1, 0]))
+            Wall(Point(-25, -25, -70), Point(25, -25, 70), [255, 255, 255], [230, 230, 230], [0, 1, 0]))
         # верхняя
         self.canv.storage.add_figure(
-            Wall(Point(-25, 25, 70), Point(25, 25, -70), [255, 0, 0], [200, 0, 0], [0, -1, 0]))
+            Wall(Point(-25, 25, 70), Point(25, 25, -70), [255, 255, 255], [230, 230, 230], [0, -1, 0]))
         # левая
         self.canv.storage.add_figure(
             Wall(Point(-25, -25, -70), Point(-25, 25, 70), [255, 0, 0], [200, 0, 0], [1, 0, 0]))
         # правая
         self.canv.storage.add_figure(
-            Wall(Point(25, -25, -70), Point(25, 25, 70), [255, 0, 0], [200, 0, 0], [-1, 0, 0]))
+            Wall(Point(25, -25, -70), Point(25, 25, 70), [0, 0, 255], [0, 0, 200], [-1, 0, 0]))
         # передняя
         self.canv.storage.add_figure(
-             Wall(Point(25, 25, -70), Point(-25, -25, -70), [255, 255, 0], [200, 200, 0], [0, 0, -1]))
+             Wall(Point(25, 25, -30), Point(-25, -25, -30), [255, 255, 0], [200, 200, 0], [0, 0, 1]))
         # sphere
-        self.canv.storage.add_figure(Sphere([255, 0, 255], [230, 0, 230], (-10, -10, 50), 10))
-        self.canv.light = LightSource([5, 24, 0], np.array([0.5, 0.5, 0.5]))
-        p = self.renderer.translate3D_point(
-            Point(self.canv.light.center[0], self.canv.light.center[1], self.canv.light.center[2]))
+        self.canv.storage.add_figure(Sphere([255, 0, 255], [230, 0, 230], (-14, -14, 50), 10))
+        self.canv.light = LightSource([5, 20, 40], np.array([0.5, 0.5, 0.5]))
         raytracing(self.canv, self.win_width, self.win_height)
-        self.canv.create_oval(p.x - self.canv.light.radius, p.y - self.canv.light.radius, p.x + self.canv.light.radius,
-                              p.y + self.canv.light.radius, fill=rgb2hex((0, 255, 0)), outline=rgb2hex((0, 255, 0)))
 
     def run(self):
         self.mainloop()

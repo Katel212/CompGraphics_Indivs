@@ -39,8 +39,6 @@ class Wall(Figure):
         return normalize(np.cross(v1, v2))
 
     def intersect(self, origin, direction):
-        if np.equal(normalize(origin), self.normal).all():
-            return None
         a = self.intersect_triangle(self.p1, self.p2, self.p3, origin, direction)
         b = self.intersect_triangle(self.p1, self.p2, self.p4, origin, direction)
         return a or b
